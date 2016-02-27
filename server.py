@@ -30,8 +30,10 @@ class TextEncoder(ContentEncoder):
 class HtmlEncoder(TextEncoder):
 	def __init__(self):
 		super().__init__('html')
+	def set_head(self, head):
+		self.head = head
 	def encode(self, content):
-		return super().encode('<!DOCTYPE html><html><body>' + str(content) + '</body></html>')
+		return super().encode('<!DOCTYPE html><html><head>' + self.head + '</head><body>' + str(content) + '</body></html>')
 
 def run_server(info, port, encoder = JsonEncoder(), response_cache = {}):
 	class MyHandler(http.server.SimpleHTTPRequestHandler):
