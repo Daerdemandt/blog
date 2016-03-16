@@ -6,6 +6,8 @@ from datetime import datetime
 from pytz import timezone
 tz = timezone('Europe/Moscow')
 
+from markdown import markdown
+
 def filename_to_title(filename):
 	circumcised = filename[:-len('.md')]
 	return circumcised.replace('_', ' ')
@@ -24,7 +26,8 @@ def format_post(post):
 	buf = '<div>\n'
 	buf += '	<h3>' + post['name'] + '</h3>'
 	buf += '	<h5>' + post['posted'].strftime('%c') + '</h5>'
-	buf += '	<div>' + post['body'].replace('\n', '<br>') + '</div>'
+	#buf += '	<div>' + post['body'].replace('\n', '<br>') + '</div>'
+	buf += '	<div>' + markdown(post['body']) + '</div>'
 	buf += '</div>'
 	return buf
 
