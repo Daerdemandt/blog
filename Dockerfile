@@ -4,6 +4,7 @@ RUN pip install --upgrade pip
 
 RUN pip install \
 	markdown \
+	pygments \
 	pytz
 
 COPY . /src

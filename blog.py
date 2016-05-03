@@ -7,6 +7,30 @@ from pytz import timezone
 tz = timezone('Europe/Moscow')
 
 from markdown import markdown
+from markdown.extensions.abbr import AbbrExtension
+from markdown.extensions.footnotes import FootnoteExtension
+from markdown.extensions.tables import TableExtension
+from markdown.extensions.codehilite import CodeHiliteExtension
+from markdown.extensions.fenced_code import FencedCodeExtension
+from markdown.extensions.meta import MetaExtension
+from markdown.extensions.smarty import SmartyExtension
+from markdown.extensions.toc import TocExtension
+from markdown.extensions.wikilinks import WikiLinkExtension
+
+markdown_extensions = [
+	AbbrExtension(),
+	FootnoteExtension(),
+	TableExtension(),
+	CodeHiliteExtension(),
+	FencedCodeExtension(),
+	MetaExtension(),
+	SmartyExtension(),
+	TocExtension(),
+#	WikiLinkExtension() #TODO: this needs to be configured and tested
+]
+# TODO: check out third party extensions like https://github.com/waylan/Python-Markdown/wiki/Third-Party-Extensions
+# Especially PyEmbed, superscript, tilde, SmartSymbols, ProgressBar, magiclink
+# Also, something for LaTeX
 
 def filename_to_title(filename):
 	circumcised = filename[:-len('.md')]
@@ -26,8 +50,7 @@ def format_post(post):
 	buf = '<div>\n'
 	buf += '	<h3>' + post['name'] + '</h3>'
 	buf += '	<h5>' + post['posted'].strftime('%c') + '</h5>'
-	#buf += '	<div>' + post['body'].replace('\n', '<br>') + '</div>'
-	buf += '	<div>' + markdown(post['body']) + '</div>'
+	buf += '	<div>' + markdown(post['body'], extensions=markdown_extensions) + '</div>'
 	buf += '</div>'
 	return buf
 
@@ -58,6 +81,8 @@ class Blog:
 		buf = ''
 		buf += '<!-- Latest compiled and minified CSS -->'
 		buf += '<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">'
+		#buf += '<link rel="stylesheet" href="https://rawgit.com/richleland/pygments-css/master/vim.css">'
+		buf += '<link rel="stylesheet" href="https://rawgit.com/richleland/pygments-css/master/autumn.css">'
 
 		buf += '<!-- jQuery library -->'
 		buf += '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>'
